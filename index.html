@@ -1,0 +1,1513 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>花光一个亿</title>
+  <meta name="description" content="5 分钟暴富消费挑战：创建身份，到账一个亿，疯狂消费并生成战绩分享图。">
+  <meta property="og:title" content="花光一个亿">
+  <meta property="og:description" content="我正在挑战 5 分钟内花光一个亿。">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23130d09'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-size='36' fill='%23f5c15d'%3E亿%3C/text%3E%3C/svg%3E">
+  <style>
+    :root {
+      --ink: #130d09;
+      --night: #080706;
+      --panel: rgba(22, 16, 11, 0.78);
+      --panel-solid: #17110c;
+      --gold: #f5c15d;
+      --gold-2: #ffe7a6;
+      --red: #d9412e;
+      --ivory: #fff7e7;
+      --muted: rgba(255, 247, 231, 0.68);
+      --line: rgba(245, 193, 93, 0.22);
+      --shadow: 0 26px 80px rgba(0, 0, 0, 0.46);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--night);
+      color: var(--ivory);
+      font-family: ui-serif, "Songti SC", "STSong", Georgia, serif;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+    button, input, select {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    .app {
+      min-height: 100vh;
+      position: relative;
+      background:
+        linear-gradient(90deg, rgba(8, 7, 6, 0.9), rgba(8, 7, 6, 0.46) 42%, rgba(8, 7, 6, 0.88)),
+        url("./assets/hero.png") center / cover fixed;
+    }
+
+    .app::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 74% 16%, rgba(245, 193, 93, 0.2), transparent 30%),
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: auto, 100% 4px;
+      mix-blend-mode: screen;
+      opacity: 0.7;
+    }
+
+    .screen {
+      position: relative;
+      min-height: 100vh;
+      padding: 28px clamp(16px, 3vw, 42px);
+      z-index: 8;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 26px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      letter-spacing: 0;
+    }
+
+    .brand strong {
+      font-size: clamp(24px, 3.2vw, 46px);
+      line-height: 1;
+      color: var(--gold-2);
+      text-shadow: 0 8px 30px rgba(245, 193, 93, 0.36);
+    }
+
+    .brand span {
+      color: var(--muted);
+      font-size: 15px;
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    }
+
+    .pill {
+      border: 1px solid var(--line);
+      background: rgba(8, 7, 6, 0.52);
+      color: var(--gold-2);
+      padding: 10px 14px;
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+      font-size: 14px;
+    }
+
+    .setup {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+      gap: clamp(20px, 5vw, 64px);
+      align-items: end;
+      min-height: calc(100vh - 120px);
+    }
+
+    .headline {
+      max-width: 720px;
+      padding-bottom: 5vh;
+    }
+
+    .headline h1 {
+      margin: 0;
+      color: var(--gold-2);
+      font-size: clamp(58px, 10vw, 138px);
+      line-height: 0.88;
+      letter-spacing: 0;
+      text-wrap: balance;
+      text-shadow: 0 22px 80px rgba(245, 193, 93, 0.28);
+    }
+
+    .headline p {
+      margin: 24px 0 0;
+      max-width: 560px;
+      color: rgba(255, 247, 231, 0.8);
+      font-size: clamp(18px, 2.2vw, 28px);
+      line-height: 1.45;
+    }
+
+    .panel {
+      background: linear-gradient(160deg, rgba(27, 20, 14, 0.88), rgba(10, 8, 6, 0.84));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      border-radius: 8px;
+    }
+
+    .profile-card {
+      padding: clamp(18px, 3vw, 30px);
+    }
+
+    .profile-card h2,
+    .result-card h2 {
+      margin: 0 0 18px;
+      color: var(--gold-2);
+      font-size: clamp(24px, 3vw, 38px);
+      line-height: 1.05;
+    }
+
+    .field {
+      display: grid;
+      gap: 9px;
+      margin: 18px 0;
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    }
+
+    .field label {
+      color: rgba(255, 247, 231, 0.72);
+      font-size: 13px;
+    }
+
+    .text-input,
+    .select-input {
+      width: 100%;
+      min-height: 48px;
+      border: 1px solid rgba(245, 193, 93, 0.28);
+      background: rgba(255, 247, 231, 0.08);
+      color: var(--ivory);
+      padding: 0 14px;
+      outline: 0;
+      border-radius: 6px;
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    }
+
+    .select-input option {
+      color: #130d09;
+    }
+
+    .segmented {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .segmented button {
+      min-height: 44px;
+      border: 1px solid rgba(245, 193, 93, 0.22);
+      background: rgba(255, 247, 231, 0.07);
+      color: rgba(255, 247, 231, 0.82);
+      border-radius: 6px;
+    }
+
+    .segmented button.active {
+      color: var(--ink);
+      background: linear-gradient(180deg, var(--gold-2), var(--gold));
+      box-shadow: 0 10px 26px rgba(245, 193, 93, 0.22);
+    }
+
+    .primary-btn {
+      min-height: 54px;
+      width: 100%;
+      margin-top: 12px;
+      border-radius: 6px;
+      color: var(--ink);
+      background: linear-gradient(180deg, var(--gold-2), var(--gold));
+      font-weight: 800;
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+      box-shadow: 0 16px 44px rgba(245, 193, 93, 0.26);
+    }
+
+    .ghost-btn {
+      min-height: 44px;
+      padding: 0 16px;
+      color: var(--gold-2);
+      border: 1px solid rgba(245, 193, 93, 0.34);
+      background: rgba(8, 7, 6, 0.36);
+      border-radius: 6px;
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    }
+
+    .ghost-btn:disabled,
+    .primary-btn:disabled {
+      opacity: 0.42;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .funding,
+    .countdown,
+    .result-wrap {
+      min-height: calc(100vh - 56px);
+      display: grid;
+      place-items: center;
+      text-align: center;
+    }
+
+    .bank-card {
+      width: min(900px, 100%);
+      padding: clamp(26px, 5vw, 58px);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .bank-card::after {
+      content: "";
+      position: absolute;
+      inset: auto -20% -34% -20%;
+      height: 46%;
+      background: radial-gradient(ellipse, rgba(245, 193, 93, 0.22), transparent 66%);
+    }
+
+    .bank-card .label {
+      color: var(--muted);
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+      font-size: 15px;
+    }
+
+    .money-big {
+      position: relative;
+      z-index: 1;
+      margin: 18px 0 12px;
+      color: var(--gold-2);
+      font-size: clamp(44px, 11vw, 126px);
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      text-shadow: 0 18px 60px rgba(245, 193, 93, 0.28);
+    }
+
+    .count-number {
+      color: var(--gold-2);
+      font-size: clamp(96px, 20vw, 220px);
+      line-height: 0.9;
+      font-variant-numeric: tabular-nums;
+      text-shadow: 0 18px 80px rgba(245, 193, 93, 0.38);
+      animation: pulseIn 1s ease both;
+    }
+
+    .game-layout {
+      display: grid;
+      grid-template-columns: minmax(250px, 330px) minmax(0, 1fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .hud {
+      position: sticky;
+      top: 20px;
+      padding: 20px;
+    }
+
+    .avatar {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .avatar-mark {
+      width: 56px;
+      height: 56px;
+      display: grid;
+      place-items: center;
+      color: var(--ink);
+      background: linear-gradient(180deg, var(--gold-2), var(--gold));
+      border-radius: 50%;
+      font-size: 30px;
+      font-weight: 900;
+    }
+
+    .avatar strong {
+      display: block;
+      color: var(--gold-2);
+      font-size: 22px;
+      line-height: 1.1;
+    }
+
+    .avatar span,
+    .stat span {
+      color: var(--muted);
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+      font-size: 13px;
+    }
+
+    .stat {
+      border-top: 1px solid var(--line);
+      padding: 16px 0;
+    }
+
+    .stat strong {
+      display: block;
+      margin-top: 8px;
+      color: var(--ivory);
+      font-size: clamp(24px, 3vw, 34px);
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .timer strong {
+      color: var(--gold-2);
+    }
+
+    .progress {
+      height: 10px;
+      background: rgba(255, 247, 231, 0.1);
+      overflow: hidden;
+      border-radius: 999px;
+      margin-top: 10px;
+    }
+
+    .progress i {
+      display: block;
+      height: 100%;
+      width: var(--pct);
+      background: linear-gradient(90deg, var(--red), var(--gold));
+      transition: width 0.25s ease;
+    }
+
+    .mission {
+      margin: 0 0 14px;
+      padding: 12px;
+      border: 1px solid rgba(245, 193, 93, 0.18);
+      background: rgba(255, 247, 231, 0.06);
+      border-radius: 8px;
+      color: rgba(255, 247, 231, 0.78);
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .quick-actions {
+      display: grid;
+      gap: 9px;
+      margin-top: 10px;
+    }
+
+    .quick-actions .ghost-btn,
+    .quick-actions .primary-btn {
+      width: 100%;
+      margin: 0;
+    }
+
+    .shop-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 18px;
+    }
+
+    .shop-head h2 {
+      margin: 0;
+      color: var(--gold-2);
+      font-size: clamp(28px, 4vw, 52px);
+      line-height: 0.95;
+    }
+
+    .shop-head p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    }
+
+    .combo-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      margin-top: 10px;
+      padding: 0 12px;
+      color: var(--ink);
+      background: var(--gold-2);
+      border-radius: 999px;
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      margin-bottom: 14px;
+    }
+
+    .tab {
+      white-space: nowrap;
+      min-height: 40px;
+      padding: 0 14px;
+      border: 1px solid rgba(245, 193, 93, 0.22);
+      color: rgba(255, 247, 231, 0.76);
+      background: rgba(8, 7, 6, 0.36);
+      border-radius: 999px;
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+      font-size: 14px;
+    }
+
+    .tab.active {
+      background: var(--gold);
+      color: var(--ink);
+      border-color: transparent;
+      font-weight: 800;
+    }
+
+    .category-hero {
+      position: relative;
+      min-height: 210px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      background: var(--panel-solid);
+      border-radius: 8px;
+      border: 1px solid var(--line);
+    }
+
+    .category-hero img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.82;
+    }
+
+    .category-hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(8, 7, 6, 0.78), rgba(8, 7, 6, 0.08));
+    }
+
+    .category-copy {
+      position: relative;
+      z-index: 1;
+      width: min(520px, 80%);
+      padding: 26px;
+    }
+
+    .category-copy h3 {
+      margin: 0 0 10px;
+      color: var(--gold-2);
+      font-size: clamp(26px, 3vw, 42px);
+      line-height: 1;
+    }
+
+    .category-copy p {
+      margin: 0;
+      color: rgba(255, 247, 231, 0.78);
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+      line-height: 1.6;
+    }
+
+    .items {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .item {
+      min-height: 138px;
+      padding: 16px;
+      text-align: left;
+      background: rgba(22, 16, 11, 0.78);
+      border: 1px solid rgba(245, 193, 93, 0.18);
+      color: var(--ivory);
+      border-radius: 8px;
+      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+
+    .item:hover:not(:disabled) {
+      transform: translateY(-3px);
+      border-color: rgba(245, 193, 93, 0.52);
+      background: rgba(34, 24, 15, 0.86);
+    }
+
+    .item:disabled {
+      opacity: 0.38;
+      cursor: not-allowed;
+    }
+
+    .item b {
+      display: block;
+      min-height: 44px;
+      color: var(--ivory);
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    .item small {
+      display: block;
+      margin: 10px 0 14px;
+      color: var(--muted);
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+      line-height: 1.4;
+    }
+
+    .item strong {
+      color: var(--gold-2);
+      font-size: 21px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .item.recommended {
+      border-color: rgba(255, 231, 166, 0.78);
+      box-shadow: inset 0 0 0 1px rgba(255, 231, 166, 0.18), 0 16px 42px rgba(245, 193, 93, 0.12);
+    }
+
+    .item em {
+      display: inline-flex;
+      margin-bottom: 8px;
+      padding: 3px 8px;
+      color: var(--ink);
+      background: var(--gold);
+      border-radius: 999px;
+      font-style: normal;
+      font-size: 12px;
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+      font-weight: 900;
+    }
+
+    .custom-spend {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 10px;
+      align-items: center;
+      padding: 14px;
+      border: 1px solid rgba(245, 193, 93, 0.24);
+      background: rgba(8, 7, 6, 0.4);
+      border-radius: 8px;
+    }
+
+    .custom-spend input {
+      height: 46px;
+      min-width: 0;
+      border: 1px solid rgba(245, 193, 93, 0.24);
+      background: rgba(255, 247, 231, 0.08);
+      color: var(--ivory);
+      padding: 0 12px;
+      outline: 0;
+      border-radius: 6px;
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%) translateY(20px);
+      z-index: 8;
+      min-width: min(460px, calc(100vw - 32px));
+      padding: 14px 18px;
+      background: rgba(255, 247, 231, 0.94);
+      color: var(--ink);
+      box-shadow: var(--shadow);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      border-radius: 8px;
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+      font-weight: 800;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .confetti {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 7;
+      overflow: hidden;
+    }
+
+    .confetti i {
+      position: absolute;
+      width: 10px;
+      height: 18px;
+      top: -30px;
+      left: var(--x);
+      background: var(--c);
+      transform: rotate(var(--r));
+      animation: fall var(--d) linear forwards;
+    }
+
+    .result-wrap {
+      background:
+        linear-gradient(rgba(8, 7, 6, 0.58), rgba(8, 7, 6, 0.86)),
+        url("./assets/celebration.png") center / cover;
+      margin: -28px clamp(-42px, -3vw, -16px);
+      padding: 40px clamp(16px, 3vw, 42px);
+    }
+
+    .result-card {
+      position: relative;
+      z-index: 8;
+      width: min(1040px, 100%);
+      padding: clamp(20px, 4vw, 38px);
+      text-align: left;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .result-kpis {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .mini-stat {
+      padding: 12px;
+      border: 1px solid rgba(245, 193, 93, 0.18);
+      background: rgba(255, 247, 231, 0.06);
+      border-radius: 8px;
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    }
+
+    .mini-stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .mini-stat b {
+      color: var(--gold-2);
+      font-size: 16px;
+    }
+
+    .title-badge {
+      display: inline-flex;
+      margin: 4px 0 18px;
+      padding: 10px 14px;
+      background: var(--gold);
+      color: var(--ink);
+      border-radius: 999px;
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+      font-weight: 900;
+    }
+
+    .breakdown {
+      display: grid;
+      gap: 10px;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 92px 1fr 96px;
+      gap: 10px;
+      align-items: center;
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+      font-size: 13px;
+    }
+
+    .bar-track {
+      height: 10px;
+      background: rgba(255, 247, 231, 0.12);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar-track i {
+      display: block;
+      height: 100%;
+      width: var(--w);
+      background: linear-gradient(90deg, var(--red), var(--gold));
+    }
+
+    .history {
+      max-height: 276px;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .history-row {
+      display: grid;
+      grid-template-columns: 72px 1fr auto;
+      gap: 8px;
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(245, 193, 93, 0.12);
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+      font-size: 13px;
+    }
+
+    .history-row:last-child { border-bottom: 0; }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .actions .primary-btn,
+    .actions .ghost-btn {
+      width: auto;
+      margin-top: 0;
+      padding: 0 18px;
+    }
+
+    .hidden { display: none !important; }
+
+    @keyframes pulseIn {
+      from { transform: scale(0.5); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes fall {
+      to {
+        top: 110vh;
+        transform: rotate(calc(var(--r) + 540deg));
+      }
+    }
+
+    @media (max-width: 980px) {
+      .setup,
+      .game-layout,
+      .result-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .headline {
+        padding-bottom: 0;
+      }
+
+      .hud {
+        position: static;
+      }
+
+      .items {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 620px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .brand {
+        display: grid;
+        gap: 6px;
+      }
+
+      .segmented,
+      .items,
+      .custom-spend {
+        grid-template-columns: 1fr;
+      }
+
+      .category-copy {
+        width: 100%;
+        padding: 18px;
+      }
+
+      .history-row,
+      .bar-row,
+      .result-kpis {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main id="app" class="app"></main>
+  <div id="toast" class="toast"></div>
+  <div id="confetti" class="confetti"></div>
+
+  <script>
+    const TOTAL = 100000000;
+    const GAME_SECONDS = 300;
+    const PUBLISHED_URL = "https://diyiwuyan.github.io/100000000/";
+    const $app = document.querySelector("#app");
+    const $toast = document.querySelector("#toast");
+    const $confetti = document.querySelector("#confetti");
+
+    const categories = [
+      {
+        id: "mansion",
+        name: "豪宅别墅",
+        image: "./assets/mansion.png",
+        line: "把地址写进城市最贵的那一页。",
+        items: [
+          ["江景大平层", 8800000, "从客厅看完整条江。"],
+          ["海岛度假别墅", 23800000, "私人码头和无边泳池。"],
+          ["山顶庄园城堡", 58000000, "门口的路都像电影镜头。"],
+          ["市中心整层公寓", 16800000, "电梯一开就是你家。"]
+        ]
+      },
+      {
+        id: "vehicles",
+        name: "豪车游艇",
+        image: "./assets/vehicles.png",
+        line: "引擎声、浪花声和到账声一样好听。",
+        items: [
+          ["限量超跑", 4680000, "颜色要定制，车牌也要顺。"],
+          ["六辆豪车车队", 18800000, "每天换一辆，周日休息。"],
+          ["私人游艇", 36000000, "甲板派对预算另算。"],
+          ["城市直升机通勤", 12800000, "堵车从此只是风景。"]
+        ]
+      },
+      {
+        id: "charity",
+        name: "公益捐赠",
+        image: "./assets/charity.png",
+        line: "花钱也可以让世界亮一点。",
+        items: [
+          ["建一座乡村图书馆", 1200000, "书架、灯光和新桌椅。"],
+          ["设立助学基金", 5000000, "让一批孩子继续读书。"],
+          ["援建乡村医院", 18000000, "设备、药房和急救车。"],
+          ["十年公益信托", 30000000, "把善意写成长线。"]
+        ]
+      },
+      {
+        id: "luxury",
+        name: "奢侈品购买",
+        image: "./assets/luxury.png",
+        line: "把橱窗搬回家，连灯光都一起买下。",
+        items: [
+          ["百万名表盒", 980000, "表盘比会议还准时。"],
+          ["珠宝晚宴套装", 2680000, "一出场就自动安静。"],
+          ["高定衣橱一年份", 5200000, "每个场合都有答案。"],
+          ["整面包包收藏墙", 8000000, "玄关从此很有压迫感。"]
+        ]
+      },
+      {
+        id: "dining",
+        name: "高级餐厅",
+        image: "./assets/luxury.png",
+        line: "吃一顿饭，像给味觉办发布会。",
+        items: [
+          ["米其林餐厅包场", 380000, "今晚只有你的名字。"],
+          ["全球主厨私人宴", 1200000, "菜单按你的心情写。"],
+          ["空运食材盛宴", 680000, "新鲜到像刚认识。"],
+          ["全城甜品免单", 2000000, "快乐由你买单。"]
+        ]
+      },
+      {
+        id: "cash",
+        name: "撒钱开心",
+        image: "./assets/hero.png",
+        line: "不解释，今天这座城的快乐你承包。",
+        items: [
+          ["全城红包雨", 3000000, "手机一震，大家都笑了。"],
+          ["商圈随机免单", 8800000, "收银台突然变浪漫。"],
+          ["朋友群豪华转账", 1888888, "手速决定友情温度。"],
+          ["广场金色派对", 12800000, "音乐和礼花都安排上。"]
+        ],
+        custom: true
+      },
+      {
+        id: "art",
+        name: "艺术收藏",
+        image: "./assets/art-experience.png",
+        line: "审美可以很贵，也可以贵得很有道理。",
+        items: [
+          ["当代艺术雕塑", 3200000, "摆在客厅，沉默但很贵。"],
+          ["私人美术馆首展", 12800000, "开幕酒会一起算。"],
+          ["古董珍藏一组", 25000000, "买下时间留下的光。"],
+          ["青年艺术家基金", 6000000, "未来大师提前下注。"]
+        ]
+      },
+      {
+        id: "ultimate",
+        name: "终极体验",
+        image: "./assets/art-experience.png",
+        line: "普通旅行看风景，顶级体验改变谈资。",
+        items: [
+          ["私人飞机一年", 22000000, "航线不问距离。"],
+          ["南极奢华探险", 6800000, "冰川也有贵宾席。"],
+          ["太空边缘体验", 45000000, "看一眼地球的弧线。"],
+          ["岛屿音乐节", 16000000, "只邀请最会快乐的人。"]
+        ]
+      }
+    ];
+
+    const state = {
+      screen: "setup",
+      gender: "男",
+      identity: "创业暴富者",
+      name: "",
+      balance: TOTAL,
+      spent: 0,
+      startedAt: 0,
+      endedAt: 0,
+      remainingSeconds: GAME_SECONDS,
+      activeCategory: "mansion",
+      history: [],
+      totals: Object.fromEntries(categories.map(cat => [cat.id, 0])),
+      customAmount: "",
+      fundingValue: 0,
+      countdown: 3,
+      combo: 0,
+      maxCombo: 0,
+      lastBuyAt: 0,
+      biggestPurchase: null,
+      tickTimer: null
+    };
+
+    const identityLines = {
+      "富二代": "家族办公室刚刚把你的练习账户打满。",
+      "创业暴富者": "你的公司刚被收购，尾款已经到账。",
+      "拆迁幸运儿": "一纸协议，把人生余额改写了。",
+      "顶流明星": "代言、片酬、版权费同时到账。",
+      "神秘继承人": "律师函打开后，你多了一个亿。",
+      "中了彩票的人": "你对了号码，也对了命运。"
+    };
+
+    function money(n) {
+      return "¥" + Math.max(0, Math.round(n)).toLocaleString("zh-CN");
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function timeLabel(seconds) {
+      const s = Math.max(0, Math.ceil(seconds));
+      const m = Math.floor(s / 60).toString().padStart(2, "0");
+      const rest = (s % 60).toString().padStart(2, "0");
+      return `${m}:${rest}`;
+    }
+
+    function elapsedLabel(ms) {
+      const safe = Math.max(0, ms);
+      const totalSeconds = safe / 1000;
+      const m = Math.floor(totalSeconds / 60).toString().padStart(2, "0");
+      const s = Math.floor(totalSeconds % 60).toString().padStart(2, "0");
+      const cs = Math.floor((totalSeconds % 1) * 100).toString().padStart(2, "0");
+      return `${m}:${s}.${cs}`;
+    }
+
+    function getShareUrl() {
+      if (PUBLISHED_URL) return PUBLISHED_URL;
+      if (location.protocol === "file:") return "本地试玩版，发布后自动替换为线上链接";
+      return location.href.split("#")[0];
+    }
+
+    function allItems() {
+      return categories.flatMap(cat => cat.items.map(([name, price, desc]) => ({
+        categoryId: cat.id,
+        categoryName: cat.name,
+        name,
+        price,
+        desc
+      })));
+    }
+
+    function bestAffordableItem() {
+      return allItems()
+        .filter(item => item.price <= state.balance)
+        .sort((a, b) => b.price - a.price)[0] || null;
+    }
+
+    function balanceHint() {
+      if (state.balance <= 0) return "任务完成，钱已经花光。";
+      const best = bestAffordableItem();
+      if (!best) return "普通商品买不动了，去「撒钱开心」清空尾款。";
+      if (state.balance <= 3000000) return `尾款阶段：建议去「撒钱开心」一键清掉 ${money(state.balance)}。`;
+      return `当前最大可买：${best.categoryName} · ${best.name}，${money(best.price)}。`;
+    }
+
+    function audioTone(freq, duration, type = "sine", gain = 0.06) {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const vol = ctx.createGain();
+        osc.type = type;
+        osc.frequency.value = freq;
+        vol.gain.value = gain;
+        osc.connect(vol);
+        vol.connect(ctx.destination);
+        osc.start();
+        vol.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+        osc.stop(ctx.currentTime + duration);
+      } catch (e) {}
+    }
+
+    function toast(text) {
+      $toast.textContent = text;
+      $toast.classList.add("show");
+      window.clearTimeout(toast.timer);
+      toast.timer = window.setTimeout(() => $toast.classList.remove("show"), 1500);
+    }
+
+    function render() {
+      if (state.tickTimer && state.screen !== "game") {
+        window.clearInterval(state.tickTimer);
+        state.tickTimer = null;
+      }
+
+      if (state.screen === "setup") renderSetup();
+      if (state.screen === "funding") renderFunding();
+      if (state.screen === "countdown") renderCountdown();
+      if (state.screen === "game") renderGame();
+      if (state.screen === "result") renderResult();
+    }
+
+    function renderSetup() {
+      const safeName = escapeHtml(state.name);
+      $app.innerHTML = `
+        <section class="screen">
+          <div class="topbar">
+            <div class="brand"><strong>花光一个亿</strong><span>5 分钟暴富消费挑战</span></div>
+            <div class="pill">目标余额：${money(TOTAL)}</div>
+          </div>
+          <div class="setup">
+            <div class="headline">
+              <h1>今晚，钱会先到账。</h1>
+              <p>${identityLines[state.identity]}你只需要完成一件事：在倒计时结束前，把它花光。</p>
+            </div>
+            <div class="profile-card panel">
+              <h2>创建你的暴富身份</h2>
+              <div class="field">
+                <label>名字</label>
+                <input id="nameInput" class="text-input" value="${safeName}" placeholder="输入一个响亮的名字">
+              </div>
+              <div class="field">
+                <label>性别</label>
+                <div class="segmented">
+                  ${["男", "女", "不限定"].map(g => `<button class="${state.gender === g ? "active" : ""}" data-gender="${g}">${g}</button>`).join("")}
+                </div>
+              </div>
+              <div class="field">
+                <label>身份</label>
+                <select id="identityInput" class="select-input">
+                  ${Object.keys(identityLines).map(id => `<option ${state.identity === id ? "selected" : ""}>${id}</option>`).join("")}
+                </select>
+              </div>
+              <button id="startBtn" class="primary-btn">开始到账</button>
+            </div>
+          </div>
+        </section>
+      `;
+
+      document.querySelector("#nameInput").addEventListener("input", e => state.name = e.target.value.trim());
+      document.querySelector("#identityInput").addEventListener("change", e => {
+        state.identity = e.target.value;
+        renderSetup();
+      });
+      document.querySelectorAll("[data-gender]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          state.gender = btn.dataset.gender;
+          renderSetup();
+        });
+      });
+      document.querySelector("#startBtn").addEventListener("click", startFunding);
+    }
+
+    function startFunding() {
+      state.name = state.name || randomName();
+      state.screen = "funding";
+      state.fundingValue = 0;
+      render();
+      const start = performance.now();
+      const duration = 2600;
+      audioTone(220, 0.12, "triangle", 0.05);
+      const step = now => {
+        const t = Math.min(1, (now - start) / duration);
+        const eased = 1 - Math.pow(1 - t, 4);
+        state.fundingValue = TOTAL * eased;
+        const node = document.querySelector("#fundingMoney");
+        if (node) node.textContent = money(state.fundingValue);
+        if (t < 1) {
+          requestAnimationFrame(step);
+        } else {
+          state.fundingValue = TOTAL;
+          audioTone(660, 0.16, "square", 0.04);
+          window.setTimeout(startCountdown, 650);
+        }
+      };
+      requestAnimationFrame(step);
+    }
+
+    function renderFunding() {
+      $app.innerHTML = `
+        <section class="screen funding">
+          <div class="bank-card panel">
+            <div class="label">银行账户入账中</div>
+            <div id="fundingMoney" class="money-big">${money(state.fundingValue)}</div>
+            <div class="label">${escapeHtml(state.name)}，你的消费权限正在打开</div>
+          </div>
+        </section>
+      `;
+    }
+
+    function startCountdown() {
+      state.screen = "countdown";
+      state.countdown = 3;
+      render();
+      const timer = window.setInterval(() => {
+        audioTone(360 + state.countdown * 90, 0.12, "triangle", 0.05);
+        state.countdown -= 1;
+        if (state.countdown <= 0) {
+          window.clearInterval(timer);
+          startGame();
+        } else {
+          render();
+        }
+      }, 1000);
+    }
+
+    function renderCountdown() {
+      $app.innerHTML = `
+        <section class="screen countdown">
+          <div>
+            <div class="count-number">${state.countdown}</div>
+            <div class="pill">准备花钱</div>
+          </div>
+        </section>
+      `;
+    }
+
+    function startGame() {
+      state.screen = "game";
+      state.balance = TOTAL;
+      state.spent = 0;
+      state.remainingSeconds = GAME_SECONDS;
+      state.startedAt = performance.now();
+      state.endedAt = 0;
+      state.history = [];
+      state.totals = Object.fromEntries(categories.map(cat => [cat.id, 0]));
+      state.combo = 0;
+      state.maxCombo = 0;
+      state.lastBuyAt = 0;
+      state.biggestPurchase = null;
+      render();
+      state.tickTimer = window.setInterval(() => {
+        const elapsed = (performance.now() - state.startedAt) / 1000;
+        state.remainingSeconds = GAME_SECONDS - elapsed;
+        if (state.remainingSeconds <= 0) {
+          finishGame(false);
+          return;
+        }
+        const timer = document.querySelector("#timerText");
+        if (timer) timer.textContent = timeLabel(state.remainingSeconds);
+      }, 250);
+    }
+
+    function renderGame() {
+      const active = categories.find(cat => cat.id === state.activeCategory) || categories[0];
+      const recommended = bestAffordableItem();
+      const spentPct = Math.min(100, state.spent / TOTAL * 100).toFixed(2) + "%";
+      const safeName = escapeHtml(state.name);
+      $app.innerHTML = `
+        <section class="screen">
+          <div class="game-layout">
+            <aside class="hud panel">
+              <div class="avatar">
+                <div class="avatar-mark">${escapeHtml(state.name.slice(0, 1))}</div>
+                <div><strong>${safeName}</strong><span>${state.identity} · ${state.gender}</span></div>
+              </div>
+              <div class="stat timer"><span>剩余时间</span><strong id="timerText">${timeLabel(state.remainingSeconds)}</strong></div>
+              <div class="stat"><span>账户余额</span><strong>${money(state.balance)}</strong></div>
+              <div class="stat"><span>已经花掉</span><strong>${money(state.spent)}</strong><div class="progress" style="--pct:${spentPct}"><i></i></div></div>
+              <p class="mission">${balanceHint()}</p>
+              <div class="quick-actions">
+                <button class="primary-btn" id="goCashBtn">去撒钱清尾款</button>
+                <button class="ghost-btn" id="bestBuyBtn" ${recommended ? "" : "disabled"}>${recommended ? `买最大单：${money(recommended.price)}` : "暂无可买商品"}</button>
+              </div>
+              <button class="ghost-btn" id="giveUpBtn">提前结算</button>
+            </aside>
+            <section>
+              <div class="shop-head">
+                <div>
+                  <h2>花钱大厅</h2>
+                  <p>买得越快，称号越狠。余额清零即胜利。</p>
+                  ${state.combo >= 2 ? `<span class="combo-chip">连买 ${state.combo} 单 · 爽感加速中</span>` : ""}
+                </div>
+                <div class="pill">${Math.round(state.spent / TOTAL * 100)}%</div>
+              </div>
+              <div class="tabs">
+                ${categories.map(cat => `<button class="tab ${cat.id === active.id ? "active" : ""}" data-tab="${cat.id}">${cat.name}</button>`).join("")}
+              </div>
+              <div class="category-hero">
+                <img src="${active.image}" alt="${active.name}">
+                <div class="category-copy">
+                  <h3>${active.name}</h3>
+                  <p>${active.line}</p>
+                </div>
+              </div>
+              <div class="items">
+                ${active.items.map(([name, price, desc]) => `
+                  <button class="item ${recommended && recommended.categoryId === active.id && recommended.name === name ? "recommended" : ""}" data-buy="${active.id}" data-name="${name}" data-price="${price}" ${price > state.balance ? "disabled" : ""}>
+                    ${recommended && recommended.categoryId === active.id && recommended.name === name ? "<em>推荐下一单</em>" : ""}
+                    <b>${name}</b>
+                    <small>${desc}</small>
+                    <strong>${money(price)}</strong>
+                  </button>
+                `).join("")}
+                ${active.custom ? `
+                  <div class="custom-spend">
+                    <input id="customAmount" inputmode="numeric" placeholder="输入任意金额，适合清尾款" value="${state.customAmount}">
+                    <button class="ghost-btn" id="spendCustom">撒出去</button>
+                    <button class="primary-btn" id="spendAll">清空余额</button>
+                  </div>
+                ` : ""}
+              </div>
+            </section>
+          </div>
+        </section>
+      `;
+
+      document.querySelectorAll("[data-tab]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          state.activeCategory = btn.dataset.tab;
+          renderGame();
+        });
+      });
+
+      document.querySelectorAll("[data-buy]").forEach(btn => {
+        btn.addEventListener("click", () => buy(btn.dataset.buy, btn.dataset.name, Number(btn.dataset.price)));
+      });
+
+      document.querySelector("#giveUpBtn").addEventListener("click", () => finishGame(false));
+      document.querySelector("#goCashBtn").addEventListener("click", () => {
+        state.activeCategory = "cash";
+        state.customAmount = String(state.balance);
+        renderGame();
+      });
+      document.querySelector("#bestBuyBtn").addEventListener("click", () => {
+        const item = bestAffordableItem();
+        if (!item) return;
+        state.activeCategory = item.categoryId;
+        buy(item.categoryId, item.name, item.price);
+      });
+
+      const custom = document.querySelector("#customAmount");
+      if (custom) {
+        custom.addEventListener("input", e => state.customAmount = e.target.value.replace(/[^\d]/g, ""));
+        document.querySelector("#spendCustom").addEventListener("click", () => {
+          const amount = Math.min(Number(state.customAmount), state.balance);
+          if (amount > 0) buy("cash", "任性撒钱", amount);
+          state.customAmount = "";
+        });
+        document.querySelector("#spendAll").addEventListener("click", () => {
+          if (state.balance > 0) buy("cash", "最后一把清空余额", state.balance);
+        });
+      }
+    }
+
+    function buy(categoryId, name, price) {
+      if (price <= 0 || price > state.balance || state.screen !== "game") return;
+      const now = performance.now();
+      state.combo = state.lastBuyAt && now - state.lastBuyAt <= 1800 ? state.combo + 1 : 1;
+      state.maxCombo = Math.max(state.maxCombo, state.combo);
+      state.lastBuyAt = now;
+      state.balance -= price;
+      state.spent += price;
+      state.totals[categoryId] += price;
+      if (!state.biggestPurchase || price > state.biggestPurchase.price) {
+        state.biggestPurchase = { categoryId, name, price };
+      }
+      state.history.unshift({
+        categoryId,
+        categoryName: categories.find(cat => cat.id === categoryId).name,
+        name,
+        price,
+        at: now - state.startedAt
+      });
+      audioTone(520, 0.08, "triangle", 0.045);
+      toast(`${state.combo >= 2 ? `连买 ${state.combo} 单 · ` : ""}${name}：${money(price)}`);
+      if (state.balance <= 0) {
+        finishGame(true);
+      } else {
+        renderGame();
+      }
+    }
+
+    function finishGame(won) {
+      if (state.screen === "result") return;
+      state.endedAt = performance.now();
+      state.screen = "result";
+      if (state.tickTimer) window.clearInterval(state.tickTimer);
+      state.tickTimer = null;
+      if (won) burstConfetti();
+      render();
+    }
+
+    function resultTitle() {
+      const elapsed = (state.endedAt - state.startedAt) / 1000;
+      const sorted = Object.entries(state.totals).sort((a, b) => b[1] - a[1]);
+      const [topId, topValue] = sorted[0];
+      const topRatio = topValue / Math.max(1, state.spent);
+      if (state.balance === 0 && elapsed <= 60) return "闪电败家王";
+      if (state.balance === 0 && state.remainingSeconds <= 3) return "极限清零大师";
+      if (topId === "charity" && topRatio >= 0.32) return "人间慈善家";
+      if ((topId === "mansion" || topId === "vehicles") && topRatio >= 0.38) return "顶级享乐派";
+      if (topId === "cash" && topRatio >= 0.25) return "全城财神爷";
+      if (topId === "art" && topRatio >= 0.25) return "审美资本家";
+      if (topId === "dining" || topId === "luxury") return "快乐消费王";
+      if (state.balance === 0) return "六边形富豪";
+      return "还没花够的富豪";
+    }
+
+    function renderResult() {
+      const won = state.balance === 0;
+      const elapsedMs = Math.min(GAME_SECONDS * 1000, state.endedAt - state.startedAt);
+      const sortedTotals = Object.entries(state.totals)
+        .map(([id, value]) => ({ id, value, name: categories.find(cat => cat.id === id).name }))
+        .filter(row => row.value > 0)
+        .sort((a, b) => b.value - a.value);
+      const maxValue = Math.max(...sortedTotals.map(row => row.value), 1);
+      const title = resultTitle();
+      const biggest = state.biggestPurchase;
+      $app.innerHTML = `
+        <section class="screen result-wrap">
+          <div class="result-card panel">
+            <h2>${won ? "恭喜，花光一个亿" : "时间到，钱还没花完"}</h2>
+            <div class="title-badge">${title}</div>
+            <div class="result-grid">
+              <div>
+                <div class="result-kpis">
+                  <div class="mini-stat"><span>最大单笔</span><b>${biggest ? `${biggest.name} · ${money(biggest.price)}` : "暂无"}</b></div>
+                  <div class="mini-stat"><span>最高连买</span><b>${state.maxCombo || 0} 单</b></div>
+                </div>
+                <div class="stat"><span>花光用时</span><strong>${elapsedLabel(elapsedMs)}</strong></div>
+                <div class="stat"><span>总消费</span><strong>${money(state.spent)}</strong></div>
+                <div class="stat"><span>剩余余额</span><strong>${money(state.balance)}</strong></div>
+                <div class="breakdown">
+                  ${sortedTotals.map(row => `
+                    <div class="bar-row">
+                      <span>${row.name}</span>
+                      <div class="bar-track" style="--w:${(row.value / maxValue * 100).toFixed(1)}%"><i></i></div>
+                      <b>${money(row.value)}</b>
+                    </div>
+                  `).join("") || `<p>还没有消费记录。</p>`}
+                </div>
+              </div>
+              <div>
+                <div class="history">
+                  ${state.history.map(row => `
+                    <div class="history-row">
+                      <span>${elapsedLabel(row.at)}</span>
+                      <span>${row.categoryName} · ${row.name}</span>
+                      <b>${money(row.price)}</b>
+                    </div>
+                  `).join("") || `<div class="history-row"><span>00:00.00</span><span>暂无消费</span><b>${money(0)}</b></div>`}
+                </div>
+                <div class="actions">
+                  <button class="primary-btn" id="shareWeb">网页分享</button>
+                  <button class="ghost-btn" id="shareImage">生成图片分享</button>
+                  <button class="ghost-btn" id="restart">再花一次</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      `;
+      document.querySelector("#restart").addEventListener("click", () => {
+        state.screen = "setup";
+        render();
+      });
+      document.querySelector("#shareWeb").addEventListener("click", shareWeb);
+      document.querySelector("#shareImage").addEventListener("click", shareImage);
+    }
+
+    function shareWeb() {
+      const text = `我在《花光一个亿》里用 ${elapsedLabel(state.endedAt - state.startedAt)} 花掉 ${money(state.spent)}，获得称号：${resultTitle()}`;
+      const url = getShareUrl();
+      if (navigator.share) {
+        navigator.share({ title: "花光一个亿", text, url }).catch(() => {});
+      } else if (navigator.clipboard) {
+        navigator.clipboard.writeText(`${text} ${url}`);
+        toast("分享文案已复制");
+      } else {
+        toast(text);
+      }
+    }
+
+    function shareImage() {
+      const canvas = document.createElement("canvas");
+      canvas.width = 1080;
+      canvas.height = 1440;
+      const ctx = canvas.getContext("2d");
+      const bg = new Image();
+      bg.onload = () => {
+        ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "rgba(8, 7, 6, 0.66)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#ffe7a6";
+        ctx.font = "bold 92px Georgia, serif";
+        ctx.fillText("花光一个亿", 86, 180);
+        ctx.font = "bold 54px -apple-system, BlinkMacSystemFont, sans-serif";
+        ctx.fillStyle = "#f5c15d";
+        ctx.fillText(resultTitle(), 86, 282);
+        ctx.fillStyle = "#fff7e7";
+        ctx.font = "42px -apple-system, BlinkMacSystemFont, sans-serif";
+        ctx.fillText(`${state.name} · ${state.identity}`, 86, 380);
+        ctx.fillText(`用时 ${elapsedLabel(state.endedAt - state.startedAt)}`, 86, 460);
+        ctx.fillText(`消费 ${money(state.spent)}`, 86, 540);
+        ctx.fillText(`剩余 ${money(state.balance)}`, 86, 620);
+        ctx.fillStyle = "rgba(255,247,231,0.2)";
+        ctx.fillRect(86, 700, 908, 2);
+        ctx.font = "34px -apple-system, BlinkMacSystemFont, sans-serif";
+        ctx.fillStyle = "#fff7e7";
+        Object.entries(state.totals)
+          .map(([id, value]) => ({ name: categories.find(cat => cat.id === id).name, value }))
+          .filter(row => row.value > 0)
+          .sort((a, b) => b.value - a.value)
+          .slice(0, 5)
+          .forEach((row, i) => {
+            ctx.fillText(`${i + 1}. ${row.name}`, 100, 790 + i * 76);
+            ctx.fillStyle = "#f5c15d";
+            ctx.fillText(money(row.value), 690, 790 + i * 76);
+            ctx.fillStyle = "#fff7e7";
+          });
+        ctx.fillStyle = "rgba(255,247,231,0.82)";
+        ctx.font = "30px -apple-system, BlinkMacSystemFont, sans-serif";
+        ctx.fillText("5 分钟暴富消费挑战", 86, 1320);
+        ctx.font = "26px -apple-system, BlinkMacSystemFont, sans-serif";
+        ctx.fillText(getShareUrl(), 86, 1372);
+        const a = document.createElement("a");
+        a.href = canvas.toDataURL("image/png");
+        a.download = `花光一个亿-${state.name}.png`;
+        a.click();
+        toast("分享图已生成");
+      };
+      bg.src = "./assets/celebration.png";
+    }
+
+    function burstConfetti() {
+      $confetti.innerHTML = "";
+      const colors = ["#f5c15d", "#ffe7a6", "#d9412e", "#fff7e7"];
+      for (let i = 0; i < 120; i++) {
+        const piece = document.createElement("i");
+        piece.style.setProperty("--x", Math.random() * 100 + "vw");
+        piece.style.setProperty("--r", Math.random() * 360 + "deg");
+        piece.style.setProperty("--d", 1.8 + Math.random() * 2.8 + "s");
+        piece.style.setProperty("--c", colors[Math.floor(Math.random() * colors.length)]);
+        $confetti.appendChild(piece);
+      }
+      window.setTimeout(() => $confetti.innerHTML = "", 4700);
+    }
+
+    function randomName() {
+      const names = ["金满满", "钱多多", "花不完", "王富贵", "一亿哥", "消费女王", "余额刺客"];
+      return names[Math.floor(Math.random() * names.length)];
+    }
+
+    render();
+  </script>
+</body>
+</html>
