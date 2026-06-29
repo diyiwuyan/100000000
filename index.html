@@ -112,6 +112,13 @@
       font-size: 14px;
     }
 
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
     .setup {
       display: grid;
       grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
@@ -212,6 +219,44 @@
       box-shadow: 0 10px 26px rgba(245, 193, 93, 0.22);
     }
 
+    .mode-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .mode-card {
+      min-height: 66px;
+      padding: 11px;
+      text-align: left;
+      border: 1px solid rgba(245, 193, 93, 0.22);
+      background: rgba(255, 247, 231, 0.07);
+      color: rgba(255, 247, 231, 0.86);
+      border-radius: 6px;
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    }
+
+    .mode-card b,
+    .mode-card span {
+      display: block;
+    }
+
+    .mode-card span {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .mode-card.active {
+      color: var(--ink);
+      background: linear-gradient(180deg, var(--gold-2), var(--gold));
+      box-shadow: 0 10px 26px rgba(245, 193, 93, 0.22);
+    }
+
+    .mode-card.active span {
+      color: rgba(19, 13, 9, 0.72);
+    }
+
     .primary-btn {
       min-height: 54px;
       width: 100%;
@@ -296,6 +341,10 @@
       grid-template-columns: minmax(250px, 330px) minmax(0, 1fr);
       gap: 22px;
       align-items: start;
+    }
+
+    .app.shake {
+      animation: screenShake 0.28s ease;
     }
 
     .hud {
@@ -383,6 +432,34 @@
       line-height: 1.55;
     }
 
+    .tasks {
+      display: grid;
+      gap: 8px;
+      margin: 14px 0;
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    }
+
+    .task {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      min-height: 32px;
+      padding: 7px 9px;
+      border: 1px solid rgba(245, 193, 93, 0.16);
+      background: rgba(255, 247, 231, 0.05);
+      border-radius: 6px;
+      color: rgba(255, 247, 231, 0.72);
+      font-size: 12px;
+    }
+
+    .task.done {
+      color: var(--ink);
+      background: rgba(245, 193, 93, 0.88);
+      border-color: transparent;
+      font-weight: 900;
+    }
+
     .quick-actions {
       display: grid;
       gap: 9px;
@@ -428,6 +505,41 @@
       font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
       font-size: 13px;
       font-weight: 900;
+    }
+
+    .event-card {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+      margin: 0 0 14px;
+      padding: 14px;
+      background: rgba(217, 65, 46, 0.16);
+      border: 1px solid rgba(245, 193, 93, 0.34);
+      border-radius: 8px;
+      box-shadow: 0 18px 46px rgba(217, 65, 46, 0.12);
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    }
+
+    .event-card b {
+      display: block;
+      color: var(--gold-2);
+      font-size: 16px;
+    }
+
+    .event-card span {
+      display: block;
+      margin-top: 5px;
+      color: rgba(255, 247, 231, 0.78);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .event-card .primary-btn {
+      width: auto;
+      min-width: 118px;
+      margin: 0;
+      padding: 0 16px;
     }
 
     .tabs {
@@ -620,6 +732,25 @@
       transform: translateX(-50%) translateY(0);
     }
 
+    .float-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 9;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .float-money {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      color: var(--gold-2);
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+      font-weight: 900;
+      text-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
+      animation: floatSpend 0.9s ease forwards;
+    }
+
     .confetti {
       position: fixed;
       inset: 0;
@@ -775,6 +906,19 @@
       }
     }
 
+    @keyframes floatSpend {
+      from { opacity: 0; transform: translate(-50%, 20px) scale(0.9); }
+      18% { opacity: 1; }
+      to { opacity: 0; transform: translate(-50%, -80px) scale(1.16); }
+    }
+
+    @keyframes screenShake {
+      0%, 100% { transform: translate3d(0, 0, 0); }
+      25% { transform: translate3d(5px, -2px, 0); }
+      50% { transform: translate3d(-4px, 3px, 0); }
+      75% { transform: translate3d(3px, 1px, 0); }
+    }
+
     @media (max-width: 980px) {
       .setup,
       .game-layout,
@@ -807,7 +951,9 @@
       }
 
       .segmented,
+      .mode-grid,
       .items,
+      .event-card,
       .custom-spend {
         grid-template-columns: 1fr;
       }
@@ -827,6 +973,7 @@
 </head>
 <body>
   <main id="app" class="app"></main>
+  <div id="floatLayer" class="float-layer"></div>
   <div id="toast" class="toast"></div>
   <div id="confetti" class="confetti"></div>
 
@@ -835,14 +982,102 @@
     const GAME_SECONDS = 300;
     const PUBLISHED_URL = "https://diyiwuyan.github.io/100000000/";
     const $app = document.querySelector("#app");
+    const $floatLayer = document.querySelector("#floatLayer");
     const $toast = document.querySelector("#toast");
     const $confetti = document.querySelector("#confetti");
+
+    const gameModes = {
+      quick: { name: "爽玩模式", seconds: 90, desc: "90 秒，适合分享挑战" },
+      full: { name: "完整模式", seconds: 300, desc: "5 分钟，完整暴富体验" }
+    };
+
+    const taskDefs = [
+      { id: "speed50", text: "60 秒内花掉 5000 万", check: () => state.spent >= 50000000 && elapsedSeconds() <= 60 },
+      { id: "charity40", text: "公益占比超过 40%", check: () => state.spent > 0 && state.totals.charity / state.spent >= 0.4 },
+      { id: "allCats", text: "至少消费 6 个模块", check: () => Object.values(state.totals).filter(Boolean).length >= 6 },
+      { id: "combo5", text: "完成 5 连买", check: () => state.maxCombo >= 5 }
+    ];
+
+    const randomEvents = [
+      { title: "限时拍卖会", text: "一件古董正在落槌，立刻买下可获得审美称号加成。", categoryId: "art", name: "限时拍卖古董", price: 15000000 },
+      { title: "红毯派对邀约", text: "顶层酒会临时放出席位，买下今晚的社交高光。", categoryId: "party", name: "红毯派对包场", price: 12000000 },
+      { title: "公益翻倍日", text: "公益项目正在匹配捐赠，立刻投入会显得格外体面。", categoryId: "charity", name: "公益翻倍捐赠", price: 10000000 },
+      { title: "车库清仓电话", text: "私人车库放出整组名额，错过就只剩传说。", categoryId: "vehicles", name: "神秘车库清仓", price: 26000000 }
+    ];
+
+    const sound = {
+      ctx: null,
+      muted: false,
+      bgmTimer: null,
+      init() {
+        if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+        if (this.ctx.state === "suspended") this.ctx.resume();
+      },
+      tone(freq, duration, type = "sine", gain = 0.055, delay = 0) {
+        if (this.muted) return;
+        this.init();
+        const osc = this.ctx.createOscillator();
+        const vol = this.ctx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, this.ctx.currentTime + delay);
+        vol.gain.setValueAtTime(gain, this.ctx.currentTime + delay);
+        vol.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + delay + duration);
+        osc.connect(vol);
+        vol.connect(this.ctx.destination);
+        osc.start(this.ctx.currentTime + delay);
+        osc.stop(this.ctx.currentTime + delay + duration);
+      },
+      noise(duration = 0.12, gain = 0.035) {
+        if (this.muted) return;
+        this.init();
+        const length = Math.floor(this.ctx.sampleRate * duration);
+        const buffer = this.ctx.createBuffer(1, length, this.ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < length; i++) data[i] = (Math.random() * 2 - 1) * (1 - i / length);
+        const src = this.ctx.createBufferSource();
+        const vol = this.ctx.createGain();
+        vol.gain.value = gain;
+        src.buffer = buffer;
+        src.connect(vol);
+        vol.connect(this.ctx.destination);
+        src.start();
+      },
+      play(kind) {
+        if (kind === "fund") [196, 247, 330, 494, 660].forEach((f, i) => this.tone(f, 0.12, "triangle", 0.045, i * 0.08));
+        if (kind === "buy") { this.tone(620, 0.07, "triangle", 0.04); this.tone(930, 0.08, "square", 0.022, 0.04); }
+        if (kind === "big") { this.noise(0.16, 0.05); [260, 390, 520, 780].forEach((f, i) => this.tone(f, 0.11, "sawtooth", 0.035, i * 0.04)); }
+        if (kind === "combo") [720, 840, 980].forEach((f, i) => this.tone(f, 0.06, "triangle", 0.03, i * 0.04));
+        if (kind === "win") [330, 415, 523, 659, 880].forEach((f, i) => this.tone(f, 0.16, "triangle", 0.045, i * 0.09));
+        if (kind === "event") { this.tone(180, 0.08, "square", 0.025); this.tone(720, 0.14, "triangle", 0.04, 0.08); }
+      },
+      startBgm() {
+        if (this.bgmTimer || this.muted) return;
+        this.init();
+        const notes = [110, 138.6, 164.8, 207.6];
+        let step = 0;
+        this.bgmTimer = window.setInterval(() => {
+          this.tone(notes[step % notes.length], 0.18, "triangle", 0.014);
+          this.tone(notes[(step + 2) % notes.length] * 2, 0.08, "sine", 0.01, 0.07);
+          step += 1;
+        }, 420);
+      },
+      stopBgm() {
+        if (this.bgmTimer) window.clearInterval(this.bgmTimer);
+        this.bgmTimer = null;
+      },
+      toggle() {
+        this.muted = !this.muted;
+        if (this.muted) this.stopBgm();
+        else this.startBgm();
+        render();
+      }
+    };
 
     const categories = [
       {
         id: "mansion",
         name: "豪宅别墅",
-        image: "./assets/mansion.png",
+        image: "./assets/mansion-interior.png",
         line: "把地址写进城市最贵的那一页。",
         items: [
           ["江景大平层", 8800000, "从客厅看完整条江。"],
@@ -854,7 +1089,7 @@
       {
         id: "vehicles",
         name: "豪车游艇",
-        image: "./assets/vehicles.png",
+        image: "./assets/supercars.png",
         line: "引擎声、浪花声和到账声一样好听。",
         items: [
           ["限量超跑", 4680000, "颜色要定制，车牌也要顺。"],
@@ -902,7 +1137,7 @@
       {
         id: "cash",
         name: "撒钱开心",
-        image: "./assets/hero.png",
+        image: "./assets/cash-rain.png",
         line: "不解释，今天这座城的快乐你承包。",
         items: [
           ["全城红包雨", 3000000, "手机一震，大家都笑了。"],
@@ -911,6 +1146,18 @@
           ["广场金色派对", 12800000, "音乐和礼花都安排上。"]
         ],
         custom: true
+      },
+      {
+        id: "party",
+        name: "红毯社交",
+        image: "./assets/gala-party.png",
+        line: "把今晚的城市话题，写成你的名字。",
+        items: [
+          ["顶层酒会包场", 2600000, "朋友、灯光和香槟一起到位。"],
+          ["红毯造势一晚", 5200000, "全场镜头都知道该拍谁。"],
+          ["明星朋友局", 9800000, "社交货币当场充值。"],
+          ["海岛音乐派对", 18000000, "快乐从登机口开始。"]
+        ]
       },
       {
         id: "art",
@@ -942,6 +1189,7 @@
       screen: "setup",
       gender: "男",
       identity: "创业暴富者",
+      mode: "quick",
       name: "",
       balance: TOTAL,
       spent: 0,
@@ -958,6 +1206,9 @@
       maxCombo: 0,
       lastBuyAt: 0,
       biggestPurchase: null,
+      activeEvent: null,
+      nextEventAt: 0,
+      completedTasks: new Set(),
       tickTimer: null
     };
 
@@ -997,6 +1248,12 @@
       const s = Math.floor(totalSeconds % 60).toString().padStart(2, "0");
       const cs = Math.floor((totalSeconds % 1) * 100).toString().padStart(2, "0");
       return `${m}:${s}.${cs}`;
+    }
+
+    function elapsedSeconds() {
+      if (!state.startedAt) return 0;
+      const end = state.endedAt || performance.now();
+      return Math.max(0, (end - state.startedAt) / 1000);
     }
 
     function getShareUrl() {
@@ -1071,7 +1328,10 @@
         <section class="screen">
           <div class="topbar">
             <div class="brand"><strong>花光一个亿</strong><span>5 分钟暴富消费挑战</span></div>
-            <div class="pill">目标余额：${money(TOTAL)}</div>
+            <div class="top-actions">
+              <button class="ghost-btn" id="soundBtn">${sound.muted ? "开启声音" : "关闭声音"}</button>
+              <div class="pill">目标余额：${money(TOTAL)}</div>
+            </div>
           </div>
           <div class="setup">
             <div class="headline">
@@ -1096,6 +1356,16 @@
                   ${Object.keys(identityLines).map(id => `<option ${state.identity === id ? "selected" : ""}>${id}</option>`).join("")}
                 </select>
               </div>
+              <div class="field">
+                <label>模式</label>
+                <div class="mode-grid">
+                  ${Object.entries(gameModes).map(([key, mode]) => `
+                    <button class="mode-card ${state.mode === key ? "active" : ""}" data-mode="${key}">
+                      <b>${mode.name}</b><span>${mode.desc}</span>
+                    </button>
+                  `).join("")}
+                </div>
+              </div>
               <button id="startBtn" class="primary-btn">开始到账</button>
             </div>
           </div>
@@ -1103,6 +1373,7 @@
       `;
 
       document.querySelector("#nameInput").addEventListener("input", e => state.name = e.target.value.trim());
+      document.querySelector("#soundBtn").addEventListener("click", () => sound.toggle());
       document.querySelector("#identityInput").addEventListener("change", e => {
         state.identity = e.target.value;
         renderSetup();
@@ -1113,17 +1384,26 @@
           renderSetup();
         });
       });
+      document.querySelectorAll("[data-mode]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          state.mode = btn.dataset.mode;
+          state.remainingSeconds = gameModes[state.mode].seconds;
+          renderSetup();
+        });
+      });
       document.querySelector("#startBtn").addEventListener("click", startFunding);
     }
 
     function startFunding() {
       state.name = state.name || randomName();
+      sound.init();
+      sound.startBgm();
+      sound.play("fund");
       state.screen = "funding";
       state.fundingValue = 0;
       render();
       const start = performance.now();
       const duration = 2600;
-      audioTone(220, 0.12, "triangle", 0.05);
       const step = now => {
         const t = Math.min(1, (now - start) / duration);
         const eased = 1 - Math.pow(1 - t, 4);
@@ -1134,7 +1414,7 @@
           requestAnimationFrame(step);
         } else {
           state.fundingValue = TOTAL;
-          audioTone(660, 0.16, "square", 0.04);
+          sound.play("fund");
           window.setTimeout(startCountdown, 650);
         }
       };
@@ -1158,7 +1438,7 @@
       state.countdown = 3;
       render();
       const timer = window.setInterval(() => {
-        audioTone(360 + state.countdown * 90, 0.12, "triangle", 0.05);
+        sound.tone(360 + state.countdown * 90, 0.12, "triangle", 0.05);
         state.countdown -= 1;
         if (state.countdown <= 0) {
           window.clearInterval(timer);
@@ -1184,7 +1464,7 @@
       state.screen = "game";
       state.balance = TOTAL;
       state.spent = 0;
-      state.remainingSeconds = GAME_SECONDS;
+      state.remainingSeconds = gameModes[state.mode].seconds;
       state.startedAt = performance.now();
       state.endedAt = 0;
       state.history = [];
@@ -1193,14 +1473,18 @@
       state.maxCombo = 0;
       state.lastBuyAt = 0;
       state.biggestPurchase = null;
+      state.activeEvent = null;
+      state.nextEventAt = 8;
+      state.completedTasks = new Set();
       render();
       state.tickTimer = window.setInterval(() => {
         const elapsed = (performance.now() - state.startedAt) / 1000;
-        state.remainingSeconds = GAME_SECONDS - elapsed;
+        state.remainingSeconds = gameModes[state.mode].seconds - elapsed;
         if (state.remainingSeconds <= 0) {
           finishGame(false);
           return;
         }
+        maybeTriggerEvent(elapsed);
         const timer = document.querySelector("#timerText");
         if (timer) timer.textContent = timeLabel(state.remainingSeconds);
       }, 250);
@@ -1211,6 +1495,7 @@
       const recommended = bestAffordableItem();
       const spentPct = Math.min(100, state.spent / TOTAL * 100).toFixed(2) + "%";
       const safeName = escapeHtml(state.name);
+      const taskRows = taskDefs.map(task => ({ ...task, done: state.completedTasks.has(task.id) }));
       $app.innerHTML = `
         <section class="screen">
           <div class="game-layout">
@@ -1223,9 +1508,13 @@
               <div class="stat"><span>账户余额</span><strong>${money(state.balance)}</strong></div>
               <div class="stat"><span>已经花掉</span><strong>${money(state.spent)}</strong><div class="progress" style="--pct:${spentPct}"><i></i></div></div>
               <p class="mission">${balanceHint()}</p>
+              <div class="tasks">
+                ${taskRows.map(task => `<div class="task ${task.done ? "done" : ""}"><span>${task.text}</span><b>${task.done ? "完成" : "待解锁"}</b></div>`).join("")}
+              </div>
               <div class="quick-actions">
                 <button class="primary-btn" id="goCashBtn">去撒钱清尾款</button>
                 <button class="ghost-btn" id="bestBuyBtn" ${recommended ? "" : "disabled"}>${recommended ? `买最大单：${money(recommended.price)}` : "暂无可买商品"}</button>
+                <button class="ghost-btn" id="soundGameBtn">${sound.muted ? "开启声音" : "关闭声音"}</button>
               </div>
               <button class="ghost-btn" id="giveUpBtn">提前结算</button>
             </aside>
@@ -1241,6 +1530,12 @@
               <div class="tabs">
                 ${categories.map(cat => `<button class="tab ${cat.id === active.id ? "active" : ""}" data-tab="${cat.id}">${cat.name}</button>`).join("")}
               </div>
+              ${state.activeEvent ? `
+                <div class="event-card">
+                  <div><b>${state.activeEvent.title}</b><span>${state.activeEvent.text} · ${money(state.activeEvent.price)}</span></div>
+                  <button class="primary-btn" id="eventBuyBtn" ${state.activeEvent.price > state.balance ? "disabled" : ""}>立刻拿下</button>
+                </div>
+              ` : ""}
               <div class="category-hero">
                 <img src="${active.image}" alt="${active.name}">
                 <div class="category-copy">
@@ -1282,6 +1577,16 @@
       });
 
       document.querySelector("#giveUpBtn").addEventListener("click", () => finishGame(false));
+      document.querySelector("#soundGameBtn").addEventListener("click", () => sound.toggle());
+      const eventBuy = document.querySelector("#eventBuyBtn");
+      if (eventBuy) {
+        eventBuy.addEventListener("click", () => {
+          const event = state.activeEvent;
+          if (!event) return;
+          state.activeEvent = null;
+          buy(event.categoryId, event.name, event.price);
+        });
+      }
       document.querySelector("#goCashBtn").addEventListener("click", () => {
         state.activeCategory = "cash";
         state.customAmount = String(state.balance);
@@ -1327,7 +1632,11 @@
         price,
         at: now - state.startedAt
       });
-      audioTone(520, 0.08, "triangle", 0.045);
+      sound.play(price >= 10000000 ? "big" : "buy");
+      if (state.combo >= 3) sound.play("combo");
+      floatSpend(price);
+      if (price >= 10000000) shakeScreen();
+      checkTasks();
       toast(`${state.combo >= 2 ? `连买 ${state.combo} 单 · ` : ""}${name}：${money(price)}`);
       if (state.balance <= 0) {
         finishGame(true);
@@ -1336,13 +1645,53 @@
       }
     }
 
+    function checkTasks() {
+      taskDefs.forEach(task => {
+        if (!state.completedTasks.has(task.id) && task.check()) {
+          state.completedTasks.add(task.id);
+          sound.play("event");
+          toast(`隐藏挑战完成：${task.text}`);
+        }
+      });
+    }
+
+    function maybeTriggerEvent(elapsed) {
+      if (state.activeEvent || elapsed < state.nextEventAt || state.balance <= 0) return;
+      const affordable = randomEvents.filter(event => event.price <= state.balance);
+      if (!affordable.length) return;
+      state.activeEvent = affordable[Math.floor(Math.random() * affordable.length)];
+      state.nextEventAt = elapsed + 18 + Math.random() * 18;
+      sound.play("event");
+      renderGame();
+    }
+
+    function floatSpend(price) {
+      const node = document.createElement("div");
+      node.className = "float-money";
+      node.textContent = `-${money(price)}`;
+      node.style.setProperty("--x", `${42 + Math.random() * 26}vw`);
+      node.style.setProperty("--y", `${42 + Math.random() * 18}vh`);
+      $floatLayer.appendChild(node);
+      window.setTimeout(() => node.remove(), 950);
+    }
+
+    function shakeScreen() {
+      $app.classList.remove("shake");
+      void $app.offsetWidth;
+      $app.classList.add("shake");
+      window.setTimeout(() => $app.classList.remove("shake"), 300);
+    }
+
     function finishGame(won) {
       if (state.screen === "result") return;
       state.endedAt = performance.now();
       state.screen = "result";
       if (state.tickTimer) window.clearInterval(state.tickTimer);
       state.tickTimer = null;
+      $floatLayer.innerHTML = "";
       if (won) burstConfetti();
+      if (won) sound.play("win");
+      sound.stopBgm();
       render();
     }
 
@@ -1357,14 +1706,16 @@
       if ((topId === "mansion" || topId === "vehicles") && topRatio >= 0.38) return "顶级享乐派";
       if (topId === "cash" && topRatio >= 0.25) return "全城财神爷";
       if (topId === "art" && topRatio >= 0.25) return "审美资本家";
+      if (topId === "party" && topRatio >= 0.22) return "社交资本家";
       if (topId === "dining" || topId === "luxury") return "快乐消费王";
+      if (state.completedTasks.size >= 3) return "败家界时间管理大师";
       if (state.balance === 0) return "六边形富豪";
       return "还没花够的富豪";
     }
 
     function renderResult() {
       const won = state.balance === 0;
-      const elapsedMs = Math.min(GAME_SECONDS * 1000, state.endedAt - state.startedAt);
+      const elapsedMs = Math.min(gameModes[state.mode].seconds * 1000, state.endedAt - state.startedAt);
       const sortedTotals = Object.entries(state.totals)
         .map(([id, value]) => ({ id, value, name: categories.find(cat => cat.id === id).name }))
         .filter(row => row.value > 0)
@@ -1372,6 +1723,7 @@
       const maxValue = Math.max(...sortedTotals.map(row => row.value), 1);
       const title = resultTitle();
       const biggest = state.biggestPurchase;
+      const beat = Math.min(99, Math.max(18, Math.round((state.spent / TOTAL) * 54 + (won ? 22 : 0) + state.completedTasks.size * 4 + Math.max(0, 90 - elapsedMs / 1000) / 9)));
       $app.innerHTML = `
         <section class="screen result-wrap">
           <div class="result-card panel">
@@ -1382,6 +1734,8 @@
                 <div class="result-kpis">
                   <div class="mini-stat"><span>最大单笔</span><b>${biggest ? `${biggest.name} · ${money(biggest.price)}` : "暂无"}</b></div>
                   <div class="mini-stat"><span>最高连买</span><b>${state.maxCombo || 0} 单</b></div>
+                  <div class="mini-stat"><span>隐藏挑战</span><b>${state.completedTasks.size}/${taskDefs.length} 个</b></div>
+                  <div class="mini-stat"><span>击败富豪</span><b>${beat}%</b></div>
                 </div>
                 <div class="stat"><span>花光用时</span><strong>${elapsedLabel(elapsedMs)}</strong></div>
                 <div class="stat"><span>总消费</span><strong>${money(state.spent)}</strong></div>
@@ -1459,8 +1813,9 @@
         ctx.fillText(`用时 ${elapsedLabel(state.endedAt - state.startedAt)}`, 86, 460);
         ctx.fillText(`消费 ${money(state.spent)}`, 86, 540);
         ctx.fillText(`剩余 ${money(state.balance)}`, 86, 620);
+        ctx.fillText(`击败 ${Math.min(99, Math.max(18, Math.round((state.spent / TOTAL) * 54 + (state.balance === 0 ? 22 : 0) + state.completedTasks.size * 4)))}% 富豪`, 86, 700);
         ctx.fillStyle = "rgba(255,247,231,0.2)";
-        ctx.fillRect(86, 700, 908, 2);
+        ctx.fillRect(86, 748, 908, 2);
         ctx.font = "34px -apple-system, BlinkMacSystemFont, sans-serif";
         ctx.fillStyle = "#fff7e7";
         Object.entries(state.totals)
@@ -1469,9 +1824,9 @@
           .sort((a, b) => b.value - a.value)
           .slice(0, 5)
           .forEach((row, i) => {
-            ctx.fillText(`${i + 1}. ${row.name}`, 100, 790 + i * 76);
+            ctx.fillText(`${i + 1}. ${row.name}`, 100, 830 + i * 70);
             ctx.fillStyle = "#f5c15d";
-            ctx.fillText(money(row.value), 690, 790 + i * 76);
+            ctx.fillText(money(row.value), 690, 830 + i * 70);
             ctx.fillStyle = "#fff7e7";
           });
         ctx.fillStyle = "rgba(255,247,231,0.82)";
@@ -1479,6 +1834,7 @@
         ctx.fillText("5 分钟暴富消费挑战", 86, 1320);
         ctx.font = "26px -apple-system, BlinkMacSystemFont, sans-serif";
         ctx.fillText(getShareUrl(), 86, 1372);
+        drawShareCode(ctx, 852, 1238, 136);
         const a = document.createElement("a");
         a.href = canvas.toDataURL("image/png");
         a.download = `花光一个亿-${state.name}.png`;
@@ -1486,6 +1842,24 @@
         toast("分享图已生成");
       };
       bg.src = "./assets/celebration.png";
+    }
+
+    function drawShareCode(ctx, x, y, size) {
+      ctx.save();
+      ctx.fillStyle = "rgba(255,247,231,0.92)";
+      ctx.fillRect(x, y, size, size);
+      ctx.fillStyle = "#130d09";
+      const cells = 9;
+      const gap = 5;
+      const cell = (size - gap * 2) / cells;
+      for (let row = 0; row < cells; row++) {
+        for (let col = 0; col < cells; col++) {
+          const edge = row < 2 || col < 2 || row > 6 || col > 6;
+          const fill = edge || ((row * 7 + col * 11 + state.spent / 1000000) % 5 < 2);
+          if (fill) ctx.fillRect(x + gap + col * cell + 2, y + gap + row * cell + 2, cell - 4, cell - 4);
+        }
+      }
+      ctx.restore();
     }
 
     function burstConfetti() {
