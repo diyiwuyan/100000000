@@ -940,32 +940,414 @@
     }
 
     @media (max-width: 620px) {
+      html, body {
+        min-height: 100svh;
+      }
+
+      .app {
+        background-attachment: scroll;
+        background-position: center top;
+      }
+
+      .app::before {
+        opacity: 0.46;
+      }
+
+      .screen {
+        min-height: 100svh;
+        padding: 16px;
+      }
+
       .topbar {
         align-items: flex-start;
         flex-direction: column;
+        gap: 10px;
+        margin-bottom: 14px;
       }
 
       .brand {
         display: grid;
-        gap: 6px;
+        gap: 4px;
       }
 
-      .segmented,
-      .mode-grid,
+      .brand strong {
+        font-size: 28px;
+      }
+
+      .brand span {
+        font-size: 13px;
+      }
+
+      .top-actions {
+        display: grid;
+        width: 100%;
+        grid-template-columns: minmax(0, 0.74fr) minmax(0, 1.26fr);
+        gap: 8px;
+      }
+
+      .top-actions .ghost-btn,
+      .top-actions .pill {
+        width: 100%;
+        min-height: 42px;
+        padding: 0 10px;
+        display: grid;
+        place-items: center;
+        font-size: 13px;
+        white-space: nowrap;
+      }
+
+      .setup {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        min-height: auto;
+      }
+
+      .headline {
+        max-width: none;
+        padding-bottom: 0;
+      }
+
+      .headline h1 {
+        max-width: 8.5em;
+        font-size: clamp(38px, 13vw, 52px);
+        line-height: 0.94;
+      }
+
+      .headline p {
+        margin-top: 10px;
+        font-size: 14px;
+        line-height: 1.45;
+      }
+
+      .profile-card {
+        padding: 14px;
+      }
+
+      .profile-card h2,
+      .result-card h2 {
+        margin-bottom: 10px;
+        font-size: 22px;
+      }
+
+      .field {
+        gap: 6px;
+        margin: 10px 0;
+      }
+
+      .text-input,
+      .select-input {
+        min-height: 42px;
+      }
+
       .items,
       .event-card,
       .custom-spend {
         grid-template-columns: 1fr;
       }
 
+      .segmented {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .segmented button {
+        min-height: 40px;
+      }
+
+      .mode-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .mode-card {
+        min-height: 52px;
+        padding: 8px;
+      }
+
+      .mode-card span {
+        margin-top: 3px;
+        font-size: 11px;
+      }
+
+      .primary-btn {
+        min-height: 46px;
+      }
+
+      .funding,
+      .countdown,
+      .result-wrap {
+        min-height: 100svh;
+      }
+
+      .money-big {
+        font-size: clamp(42px, 13vw, 60px);
+      }
+
+      .game-screen {
+        padding: 0 12px 18px;
+        overflow-x: hidden;
+      }
+
+      .game-layout {
+        gap: 12px;
+        min-width: 0;
+        max-width: 100%;
+      }
+
+      .hud {
+        position: static;
+        z-index: 30;
+        margin: 0 -12px 12px;
+        padding: 10px 12px;
+        border-radius: 0 0 8px 8px;
+        background: rgba(14, 10, 7, 0.94);
+        backdrop-filter: blur(18px);
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px 10px;
+        overflow: hidden;
+        min-width: 0;
+        max-width: calc(100vw + 24px);
+      }
+
+      .hud > *,
+      .shop-head,
+      .tabs,
+      .category-hero,
+      .items,
+      .custom-spend {
+        min-width: 0;
+        max-width: 100%;
+      }
+
+      .avatar {
+        grid-column: 1 / -1;
+        margin-bottom: 0;
+        gap: 10px;
+      }
+
+      .game-screen .avatar {
+        display: none;
+      }
+
+      .avatar-mark {
+        width: 38px;
+        height: 38px;
+        font-size: 21px;
+      }
+
+      .avatar strong {
+        font-size: 17px;
+      }
+
+      .avatar span,
+      .stat span {
+        font-size: 11px;
+      }
+
+      .stat {
+        border-top: 0;
+        padding: 7px;
+        background: rgba(255, 247, 231, 0.05);
+        border: 1px solid rgba(245, 193, 93, 0.12);
+        border-radius: 6px;
+      }
+
+      .stat strong {
+        margin-top: 5px;
+        font-size: 18px;
+      }
+
+      .mission {
+        grid-column: 1 / -1;
+        margin: 0;
+        padding: 9px;
+        font-size: 12px;
+        line-height: 1.45;
+      }
+
+      .tasks {
+        grid-column: 1 / -1;
+        display: flex;
+        gap: 8px;
+        margin: 0;
+        min-width: 0;
+        overflow-x: auto;
+        padding-bottom: 2px;
+        scrollbar-width: none;
+      }
+
+      .tasks::-webkit-scrollbar {
+        display: none;
+      }
+
+      .task {
+        flex: 0 0 156px;
+        max-width: 156px;
+        min-height: 34px;
+        padding: 7px 8px;
+      }
+
+      .quick-actions {
+        grid-column: 1 / -1;
+        grid-template-columns: 1fr;
+        gap: 8px;
+        margin-top: 0;
+      }
+
+      .quick-actions .ghost-btn,
+      .quick-actions .primary-btn,
+      #giveUpBtn {
+        min-height: 37px;
+        padding: 0 10px;
+        font-size: 13px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      #soundGameBtn {
+        display: none;
+      }
+
+      #giveUpBtn {
+        grid-column: 1 / -1;
+      }
+
+      .shop-head {
+        align-items: flex-start;
+        margin-bottom: 10px;
+      }
+
+      .shop-head h2 {
+        font-size: 34px;
+      }
+
+      .shop-head p {
+        font-size: 13px;
+      }
+
+      .combo-chip {
+        min-height: 28px;
+        margin-top: 7px;
+        font-size: 12px;
+      }
+
+      .tabs {
+        gap: 7px;
+        margin: 0 -12px 10px;
+        padding: 0 12px 9px;
+      }
+
+      .tab {
+        min-height: 36px;
+        padding: 0 12px;
+        font-size: 13px;
+      }
+
+      .event-card {
+        gap: 10px;
+        padding: 12px;
+      }
+
+      .event-card .primary-btn {
+        width: 100%;
+      }
+
+      .category-hero {
+        min-height: 142px;
+        margin-bottom: 10px;
+      }
+
       .category-copy {
         width: 100%;
-        padding: 18px;
+        padding: 15px;
+      }
+
+      .category-copy h3 {
+        font-size: 28px;
+      }
+
+      .category-copy p {
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      .items {
+        gap: 9px;
+      }
+
+      .item {
+        min-height: auto;
+        padding: 12px;
+      }
+
+      .item b {
+        min-height: auto;
+        font-size: 17px;
+      }
+
+      .item small {
+        margin: 7px 0 10px;
+        font-size: 12px;
+      }
+
+      .item strong {
+        font-size: 19px;
+      }
+
+      .custom-spend {
+        padding: 12px;
+        gap: 8px;
+      }
+
+      .result-wrap {
+        margin: -16px;
+        padding: 14px 12px;
+        align-items: start;
+      }
+
+      .result-card {
+        width: 100%;
+        padding: 14px;
+      }
+
+      .title-badge {
+        margin-bottom: 12px;
+      }
+
+      .result-kpis {
+        grid-template-columns: 1fr 1fr;
+        gap: 7px;
+        margin-bottom: 10px;
+      }
+
+      .mini-stat {
+        padding: 9px;
+      }
+
+      .mini-stat b {
+        font-size: 14px;
+        overflow-wrap: anywhere;
+      }
+
+      .history {
+        max-height: 220px;
+      }
+
+      .actions {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .actions .primary-btn,
+      .actions .ghost-btn {
+        width: 100%;
+        min-height: 44px;
       }
 
       .history-row,
-      .bar-row,
-      .result-kpis {
+      .bar-row {
         grid-template-columns: 1fr;
       }
     }
@@ -1325,7 +1707,7 @@
     function renderSetup() {
       const safeName = escapeHtml(state.name);
       $app.innerHTML = `
-        <section class="screen">
+        <section class="screen setup-screen">
           <div class="topbar">
             <div class="brand"><strong>花光一个亿</strong><span>5 分钟暴富消费挑战</span></div>
             <div class="top-actions">
@@ -1497,7 +1879,7 @@
       const safeName = escapeHtml(state.name);
       const taskRows = taskDefs.map(task => ({ ...task, done: state.completedTasks.has(task.id) }));
       $app.innerHTML = `
-        <section class="screen">
+        <section class="screen game-screen">
           <div class="game-layout">
             <aside class="hud panel">
               <div class="avatar">
@@ -1693,6 +2075,7 @@
       if (won) sound.play("win");
       sound.stopBgm();
       render();
+      window.scrollTo(0, 0);
     }
 
     function resultTitle() {
@@ -1725,7 +2108,7 @@
       const biggest = state.biggestPurchase;
       const beat = Math.min(99, Math.max(18, Math.round((state.spent / TOTAL) * 54 + (won ? 22 : 0) + state.completedTasks.size * 4 + Math.max(0, 90 - elapsedMs / 1000) / 9)));
       $app.innerHTML = `
-        <section class="screen result-wrap">
+        <section class="screen result-wrap result-screen">
           <div class="result-card panel">
             <h2>${won ? "恭喜，花光一个亿" : "时间到，钱还没花完"}</h2>
             <div class="title-badge">${title}</div>
