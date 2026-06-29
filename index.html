@@ -1834,7 +1834,7 @@
         ctx.fillText("5 分钟暴富消费挑战", 86, 1320);
         ctx.font = "26px -apple-system, BlinkMacSystemFont, sans-serif";
         ctx.fillText(getShareUrl(), 86, 1372);
-        drawShareCode(ctx, 852, 1238, 136);
+        drawQrCode(ctx, getShareUrl(), 826, 1212, 164);
         const a = document.createElement("a");
         a.href = canvas.toDataURL("image/png");
         a.download = `花光一个亿-${state.name}.png`;
@@ -1844,22 +1844,190 @@
       bg.src = "./assets/celebration.png";
     }
 
-    function drawShareCode(ctx, x, y, size) {
+    function drawQrCode(ctx, text, x, y, size) {
+      const qr = makeQrV3L(text);
+      const quiet = 4;
+      const cells = qr.length + quiet * 2;
+      const cell = Math.floor(size / cells);
+      const actual = cell * cells;
       ctx.save();
-      ctx.fillStyle = "rgba(255,247,231,0.92)";
-      ctx.fillRect(x, y, size, size);
+      ctx.fillStyle = "rgba(255,247,231,0.96)";
+      ctx.fillRect(x, y, actual, actual);
       ctx.fillStyle = "#130d09";
-      const cells = 9;
-      const gap = 5;
-      const cell = (size - gap * 2) / cells;
-      for (let row = 0; row < cells; row++) {
-        for (let col = 0; col < cells; col++) {
-          const edge = row < 2 || col < 2 || row > 6 || col > 6;
-          const fill = edge || ((row * 7 + col * 11 + state.spent / 1000000) % 5 < 2);
-          if (fill) ctx.fillRect(x + gap + col * cell + 2, y + gap + row * cell + 2, cell - 4, cell - 4);
+      for (let row = 0; row < qr.length; row++) {
+        for (let col = 0; col < qr.length; col++) {
+          if (qr[row][col]) {
+            ctx.fillRect(x + (col + quiet) * cell, y + (row + quiet) * cell, cell, cell);
+          }
         }
       }
       ctx.restore();
+    }
+
+    function makeQrV3L(text) {
+      const version = 3;
+      const size = 17 + version * 4;
+      const dataCodewords = 55;
+      const eccCodewords = 15;
+      const modules = Array.from({ length: size }, () => Array(size).fill(false));
+      const reserved = Array.from({ length: size }, () => Array(size).fill(false));
+
+      function set(x, y, value, reserve = true) {
+        if (x < 0 || y < 0 || x >= size || y >= size) return;
+        modules[y][x] = value;
+        if (reserve) reserved[y][x] = true;
+      }
+
+      function finder(x, y) {
+        for (let dy = -1; dy <= 7; dy++) {
+          for (let dx = -1; dx <= 7; dx++) {
+            const xx = x + dx;
+            const yy = y + dy;
+            const inCore = dx >= 0 && dx <= 6 && dy >= 0 && dy <= 6;
+            const black = inCore && (dx === 0 || dx === 6 || dy === 0 || dy === 6 || (dx >= 2 && dx <= 4 && dy >= 2 && dy <= 4));
+            set(xx, yy, black);
+          }
+        }
+      }
+
+      function alignment(cx, cy) {
+        for (let dy = -2; dy <= 2; dy++) {
+          for (let dx = -2; dx <= 2; dx++) {
+            const dist = Math.max(Math.abs(dx), Math.abs(dy));
+            set(cx + dx, cy + dy, dist !== 1);
+          }
+        }
+      }
+
+      finder(0, 0);
+      finder(size - 7, 0);
+      finder(0, size - 7);
+      alignment(22, 22);
+      for (let i = 8; i < size - 8; i++) {
+        set(i, 6, i % 2 === 0);
+        set(6, i, i % 2 === 0);
+      }
+      set(8, 4 * version + 9, true);
+      for (let i = 0; i < 9; i++) {
+        if (i !== 6) {
+          reserved[8][i] = true;
+          reserved[i][8] = true;
+        }
+      }
+      for (let i = 0; i < 8; i++) {
+        reserved[8][size - 1 - i] = true;
+        reserved[size - 1 - i][8] = true;
+      }
+
+      const data = qrDataCodewords(text, dataCodewords);
+      const ecc = reedSolomon(data, eccCodewords);
+      const bits = [...data, ...ecc].flatMap(byte => {
+        const arr = [];
+        for (let i = 7; i >= 0; i--) arr.push(((byte >>> i) & 1) === 1);
+        return arr;
+      });
+
+      let bitIndex = 0;
+      let upward = true;
+      for (let right = size - 1; right >= 1; right -= 2) {
+        if (right === 6) right--;
+        for (let vert = 0; vert < size; vert++) {
+          const y = upward ? size - 1 - vert : vert;
+          for (let dx = 0; dx < 2; dx++) {
+            const x = right - dx;
+            if (reserved[y][x]) continue;
+            const raw = bitIndex < bits.length ? bits[bitIndex++] : false;
+            const mask = (x + y) % 2 === 0;
+            modules[y][x] = raw !== mask;
+          }
+        }
+        upward = !upward;
+      }
+
+      const format = formatBitsLMask0();
+      for (let i = 0; i <= 5; i++) set(8, i, ((format >> i) & 1) === 1);
+      set(8, 7, ((format >> 6) & 1) === 1);
+      set(8, 8, ((format >> 7) & 1) === 1);
+      set(7, 8, ((format >> 8) & 1) === 1);
+      for (let i = 9; i < 15; i++) set(14 - i, 8, ((format >> i) & 1) === 1);
+      for (let i = 0; i < 8; i++) set(size - 1 - i, 8, ((format >> i) & 1) === 1);
+      for (let i = 8; i < 15; i++) set(8, size - 15 + i, ((format >> i) & 1) === 1);
+
+      return modules;
+    }
+
+    function qrDataCodewords(text, dataCodewords) {
+      const bytes = Array.from(new TextEncoder().encode(text));
+      const bits = [];
+      const push = (value, length) => {
+        for (let i = length - 1; i >= 0; i--) bits.push((value >>> i) & 1);
+      };
+      push(0b0100, 4);
+      push(bytes.length, 8);
+      bytes.forEach(byte => push(byte, 8));
+      const capacityBits = dataCodewords * 8;
+      const terminator = Math.min(4, capacityBits - bits.length);
+      push(0, terminator);
+      while (bits.length % 8 !== 0) bits.push(0);
+      const out = [];
+      for (let i = 0; i < bits.length; i += 8) {
+        out.push(bits.slice(i, i + 8).reduce((acc, bit) => (acc << 1) | bit, 0));
+      }
+      for (let pad = 0; out.length < dataCodewords; pad++) out.push(pad % 2 === 0 ? 0xec : 0x11);
+      return out;
+    }
+
+    function reedSolomon(data, degree) {
+      const generator = rsGenerator(degree);
+      const result = Array(degree).fill(0);
+      data.forEach(byte => {
+        const factor = byte ^ result.shift();
+        result.push(0);
+        generator.forEach((coef, i) => {
+          result[i] ^= gfMul(coef, factor);
+        });
+      });
+      return result;
+    }
+
+    function rsGenerator(degree) {
+      let poly = [1];
+      for (let i = 0; i < degree; i++) {
+        const next = Array(poly.length + 1).fill(0);
+        poly.forEach((coef, j) => {
+          next[j] ^= gfMul(coef, 1);
+          next[j + 1] ^= gfMul(coef, gfPow(2, i));
+        });
+        poly = next;
+      }
+      return poly.slice(1);
+    }
+
+    function gfMul(a, b) {
+      let result = 0;
+      while (b > 0) {
+        if (b & 1) result ^= a;
+        a <<= 1;
+        if (a & 0x100) a ^= 0x11d;
+        b >>>= 1;
+      }
+      return result;
+    }
+
+    function gfPow(a, n) {
+      let result = 1;
+      for (let i = 0; i < n; i++) result = gfMul(result, a);
+      return result;
+    }
+
+    function formatBitsLMask0() {
+      const data = 0b01000;
+      let bits = data << 10;
+      const generator = 0b10100110111;
+      for (let i = 14; i >= 10; i--) {
+        if ((bits >>> i) & 1) bits ^= generator << (i - 10);
+      }
+      return ((data << 10) | bits) ^ 0b101010000010010;
     }
 
     function burstConfetti() {
